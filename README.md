@@ -1,5 +1,7 @@
 # Apollo Descent — Gravity Lander
 
+![Screenshot](docs/screenshots/hero.png)
+
 ![Menu](docs/screenshots/menu.png)
 
 ![Flight](docs/screenshots/flight.png)
