@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<title>APOLLO DESCENT — Gravity Lander</title>
+<!--
+  iPhone / Tailscale path fix (2026-08-09):
+  Opening https://…/apollo  (NO trailing slash) makes the browser resolve relative
+  scripts as /three.min.js → hits the root proxy (:8060) → 404 → stuck boot / white
+  screen. LAN http://IP:8070/ is fine. Must run BEFORE any relative <script src>.
+-->
+<script>
+(function () {
+  try {
+    var path = location.pathname || '/';
+    // Normalize bookmark / share links that omit the trailing slash.
+    if (path === '/apollo') {
+      location.replace('/apollo/' + (location.search || '') + (location.hash || ''));
+      return;
+    }
+    // Keep relative asset URLs under the Tailscale path prefix.
+    if (path.indexOf('/apollo/') === 0) {
+      var b = document.createElement('base');
+      b.href = '/apollo/';
+      document.head.insertBefore(b, document.head.firstChild);
+    }
+  } catch (e) { /* never block boot on path hygiene */ }
+})();
+</script>
+<style>
+  html, body { margin:0; padding:0; overflow:hidden; background:#000; width:100%; height:100%;
+    height:100dvh; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    -webkit-text-size-adjust:100%; overscroll-behavior:none; }
+  canvas { display:block; position:fixed; inset:0; z-index:0;
+    touch-action:none; -webkit-user-select:none; user-select:none; }
+  #boot { position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    color:#9fd8ff; font-family:'Courier New', monospace; letter-spacing:2px; z-index:9999;
+    background:#000; transition:opacity .8s; }
+  #boot.hidden { opacity:0; pointer-events:none; }
+  #fatal { position:fixed; inset:0; z-index:10000; background:#1a0505; color:#ffb3b3;
+    font-family:'Courier New', monospace; font-size:14px; line-height:1.6; padding:24px;
+    white-space:pre-wrap; word-break:break-word; display:none; overflow:auto;
+    padding-top:max(24px, env(safe-area-inset-top));
+    padding-bottom:max(24px, env(safe-area-inset-bottom)); }
+  noscript { color:#fff; }
+</style>
+</head>
+<body>
+  <div id="boot">INITIALIZING DESCENT SYSTEMS…</div>
+  <div id="fatal"></div>
+  <noscript>Your browser needs JavaScript enabled to run APOLLO DESCENT.</noscript>
+
+  <!-- Load-time watchdog: if a module halts the page, surface the real error
+       on-screen instead of a silent white screen. Also marks healthy boot so
+       a stale-cache white screen is easy to distinguish from a code error. -->
+  <script>
+    (function(){ window.__errs=[]; window.__healthy=false;
+      window.addEventListener('error',function(e){ window.__errs.push((e&&e.message||e)+' @ '+(e&&e.filename||'')+':'+(e&&e.lineno||'')); showFatal(); });
+      window.addEventListener('unhandledrejection',function(e){ window.__errs.push('promise: '+(e&&e.reason&&e.reason.message||e&&e.reason)); showFatal(); });
+      function showFatal(){ var f=document.getElementById('fatal'); if(!f||window.__errs.length===0)return;
+        f.textContent='APOLLO DESCENT — STARTUP ERROR\n\n'+window.__errs.join('\n\n'); f.style.display='block'; }
+      window.__mark = function(){ window.__healthy=true; var b=document.getElementById('boot'); if(b){b.classList.add('hidden');} setTimeout(function(){if(b&&b.parentNode)b.parentNode.removeChild(b);},900); };
+    })();
+  </script>
+
+  <!-- Cache-bust ?v= bumped when iPhone path / HUD fixes land -->
+  <script src="three.min.js?v=40"></script>
+  <!-- Component modules. Order matters: dependencies first. -->
+  <script src="src/terrain.js?v=40"></script>
+  <script src="src/lander.js?v=40"></script>
+  <script src="src/fx.js?v=40"></script>
+  <script src="src/engine.js?v=40"></script>
+  <script src="src/career.js?v=40"></script>
+  <script src="src/economy.js?v=40"></script>
+  <script src="src/audio.js?v=40"></script>
+  <script src="src/ui.js?v=40"></script>
+  <script src="src/game.js?v=40"></script>
+</body>
+</html>
