@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 PORT="${START9_VISION_PORT:-11435}"
 MODEL="${OLLAMA_VISION_MODEL:-llama3.2-vision:11b}"
 MODE="${1:---see}"
-IMG="${2:-$ROOT/shot-menu.png}"
+IMG="${2:-$ROOT/docs/screenshots/menu.png}"
 
 # ensure tunnel
 if ! curl -sS --max-time 2 "http://127.0.0.1:${PORT}/api/tags" >/dev/null 2>&1; then

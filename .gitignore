@@ -10,3 +10,6 @@ __pycache__/
 *.db
 .DS_Store
 dogfood-output/
+
+# Local playtest dumps; canonical shots live in docs/screenshots/
+/shot-*.png
