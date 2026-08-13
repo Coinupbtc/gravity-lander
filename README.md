@@ -1,14 +1,6 @@
 # Apollo Descent — Gravity Lander
 
-![Screenshot](docs/screenshots/hero.png)
-
-
-
-![Menu](docs/screenshots/menu.png)
-
-![Flight](docs/screenshots/flight.png)
-
-![iPhone](docs/screenshots/iphone-portrait.png)
+![Flight](docs/screenshots/hero.png)
 
 A phone-first 3D lunar lander in the browser — thrust, shop, and soft landings.
 
@@ -35,7 +27,7 @@ cd gravity-lander && ./setup.sh
 ```
 
 ### One click
-Open `index.html` directly (desktop). For iPhone on LAN, use `./setup.sh` / `serve.py` so assets resolve cleanly.
+Open `index.html` directly (desktop), or **[the GitHub Pages build](https://coinupbtc.github.io/gravity-lander/)**. For iPhone on LAN, use `./setup.sh` / `serve.py` so assets resolve cleanly.
 
 ## Controls
 
@@ -46,3 +38,7 @@ Open `index.html` directly (desktop). For iPhone on LAN, use `./setup.sh` / `ser
 
 - Portrait **390×844** is the primary phone frame; landscape layout is supported.
 - `serve.py` sends `no-store` for `index.html` so phone caches don’t stick on stale builds.
+
+![Menu](docs/screenshots/menu.png)
+
+![iPhone](docs/screenshots/iphone-portrait.png)
